@@ -1,6 +1,6 @@
 # CSI4142 PROJECT
 
-## Phase 3: Data Mining
+## Phase 3: OLAP + BI Dashboard
 ### Relevant files
 - Project-Queries Folder
 	- All .sql files which include the scripts to for our OLAP operations
