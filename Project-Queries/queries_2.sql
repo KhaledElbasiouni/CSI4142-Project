@@ -1,0 +1,58 @@
+-- WITH processed_fact_table AS (
+-- SELECT
+--     dt.year,
+--     edu.field_of_study,
+--     ind.sector_name,
+--     emp.gender AS employee_gender,
+--     emp.age_group,
+--     grad.gender AS graduate_gender,
+--     emp_status.employment_status,
+--     ft.number_of_employees,
+--     ft.gdp_value,
+--     ft.number_of_graduates
+-- FROM
+--     fact_table ft
+-- JOIN
+--     dim_date dt ON ft.date_key = dt.date_key
+-- JOIN
+--     dim_education edu ON ft.education_key = edu.education_key
+-- JOIN
+--     dim_industry ind ON ft.industry_key = ind.industry_key
+-- JOIN
+--     dim_employee_demographic emp ON ft.employee_demographic_key = emp.employee_demographic_key
+-- JOIN
+--     dim_graduate_demographic grad ON ft.graduate_demographic_key = grad.graduate_demographic_key
+-- JOIN
+--     dim_employment_status emp_status ON ft.employment_status_key = emp_status.employment_key
+-- ),
+
+-- QUERY 2
+-- drill_down_table AS (
+--   SELECT year, employee_gender, sector_name, sum(number_of_employees)
+--   FROM processed_fact_table
+--   GROUP BY year,employee_gender, sector_name
+-- )
+-- SELECT employee_gender, sector_name, sum as number_of_employees
+-- FROM drill_down_table
+-- WHERE drill_down_table.year = 2008
+
+-- QUERY 3
+-- drill_down_table AS (
+--   SELECT year, graduate_gender, field_of_study, sum(number_of_graduates)
+--   FROM processed_fact_table
+--   GROUP BY year,graduate_gender, field_of_study
+-- )
+-- SELECT graduate_gender, field_of_study, sum as number_of_graduates
+-- FROM drill_down_table
+-- WHERE drill_down_table.year = 2008
+
+-- QUERY 4
+-- slice_table AS (
+-- 	SELECT *
+-- 	FROM processed_fact_table
+-- 	WHERE year=2008
+-- )
+-- SELECT sector_name, employment_status, sum(number_of_employees) as number_of_people
+-- FROM slice_table
+-- GROUP BY sector_name,employment_status
+-- ORDER BY sector_name, employment_status
